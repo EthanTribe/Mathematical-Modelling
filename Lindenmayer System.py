@@ -38,9 +38,9 @@ def CalculateStep(turtle, tree, dist, angle):
                 turtle.write(f"   {char}", font=("Arial", 10, "bold"))
             turtle.forward(dist)
         elif char == "+":
-            turtle.right(angle)
-        elif char == "-":
             turtle.left(angle)
+        elif char == "-":
+            turtle.right(angle)
 
     if (debugMode):
         print(tree)
@@ -55,7 +55,7 @@ rules = {
 axiom = "-X"
 angle = 25
 colour = "olive drab"
-startPos = ((100, -450))
+startPos = ((-100, -450))
 
 
 # Generate the L-System
@@ -67,7 +67,7 @@ tree = axiom
 screen = turtle.Screen()
 screen.title(name)
 screen.setup(1000, 1000)
-screen.bgcolor(0.9, 0.83, 0.7)
+screen.bgcolor("azure")
 screen.tracer(0, 0)
 
 turtle = turtle.Turtle()
