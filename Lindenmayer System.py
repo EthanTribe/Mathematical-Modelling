@@ -71,6 +71,20 @@ systems = [
         "startPos": ((0, -400))
     },
     {
+        "name": "Sierpinski arrowhead curve refined",
+        "rules": {
+            "A": "A+B+A-B-A-B-A+B+A",
+            "B": "B-A-B+A+B+A+B-A-B"
+        },
+        "axiom": "A",
+        "angle": 60,
+        "colour": "hot pink",
+        "startPos": ((-400, -400)),
+        "startHeading": 0,
+        "lineLength": 800,
+        "lineLengthChange": 4
+    },
+    {
         "name": "Christmas Tree",
         "rules": {
             "A": "BBB[++[+D][C][-D]][BA][--[+D][C][-D]]",
@@ -107,10 +121,10 @@ while (reinput):
 
 system = systems[choice]
 
-# Generate the L-System
-print()
-
+# Graphical setup and L-System generation
 tree = system["axiom"]
+lineLength = system.get("lineLength", 20)
+startHeading = system.get("startHeading", 90)
 
 screen = turtle.Screen()
 screen.title(system["name"])
@@ -126,15 +140,19 @@ turtle.color(system["colour"])
 
 def Step():
     global tree
+    global lineLength
 
     turtle.clear()
     turtle.penup()
     turtle.goto(system["startPos"])
-    turtle.setheading(90)
+    turtle.setheading(startHeading)
     turtle.pendown()
 
-    CalculateStep(turtle, tree, 20, system["angle"])
+    CalculateStep(turtle, tree, lineLength, system["angle"])
     screen.update()
+
+    if ("lineLengthChange" in system):
+        lineLength /= system["lineLengthChange"]
 
     tree = GetTree(system["rules"], tree)
 
@@ -153,6 +171,7 @@ def SaveImage():
 
 Step()
 
+print()
 print("ENTER to advance")
 print("D for debug mode")
 print("SPACE to save image")
