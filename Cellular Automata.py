@@ -1,16 +1,27 @@
-grid = [0] * 11
-grid[5] = 1
+import numpy as np
+import matplotlib.pyplot as plt
+
+iterations = 50
+gridWidth = 49
+
+grid = np.zeros((iterations, gridWidth))
+grid[0, gridWidth//2] = 1
 
 #       000001010011100101110111
 rules = [0, 1, 1, 0, 1, 1, 0, 0]
 
-for t in range (50): # or edges are reached
+def ApplyRule(row, column):
+    ruleIndex = 0
+    for n in range(3):
+        ruleIndex += 2**n * grid[row, column - n + 1]
+    return rules[int(ruleIndex)]
 
-    print(grid)
-    newGrid = grid.copy()
+for row in range(iterations - 1): # or edges are reached
+    for column in range(1, gridWidth - 1):
+        grid[row + 1, column] = ApplyRule(row, column)
 
-    for i in range(len(grid) - 2):
-        ruleIndex = grid[i-1] * 4 + grid[i] * 2 + grid[i+1]
-        newGrid[i] = rules[ruleIndex]
-    
-    grid = newGrid.copy()
+fig, ax = plt.subplots()
+ax.get_xaxis().set_visible(False)
+ax.get_yaxis().set_visible(False)
+ax.matshow(grid, cmap = "binary", origin = "upper")
+plt.show()
